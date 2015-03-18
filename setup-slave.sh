@@ -128,3 +128,11 @@ echo 'readlink -e "$@"' >> /usr/bin/realpath
 chmod a+x /usr/bin/realpath
 
 popd > /dev/null
+
+echo "Installing special additions..."
+yum install -y python27 python27-pip python27-devel aws-cli \
+  gcc-c++ python27-devel atlas-sse3-devel lapack-devel gcc-gfortran
+pip-2.7 install -U ipython pyzmq jinja2 tornado backports.ssl_match_hostname \
+  jsonschema terminado numpy scipy
+touch /usr/lib/python2.7/site-packages/backports/__init__.py
+
