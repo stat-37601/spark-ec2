@@ -114,4 +114,18 @@ for module in $MODULES; do
   cd /root/spark-ec2  # guard against setup.sh changing the cwd
 done
 
+mkdir -p /root/notebooks
+pushd /root/notebooks
+
+function runner {
+  while true; do
+    IPYTHON_OPTS="notebook --port=8080 --ip=0.0.0.0" ~/spark/bin/pyspark
+    sleep 2
+  done
+}
+
+runner &
+
+popd > /dev/null
+
 popd > /dev/null
