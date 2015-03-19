@@ -136,3 +136,5 @@ pip-2.7 install -U ipython pyzmq jinja2 tornado backports.ssl_match_hostname \
   jsonschema terminado numpy scipy
 touch /usr/lib/python2.7/site-packages/backports/__init__.py
 
+echo "Adding a 3 hour time limit..."
+shutdown -P +180
