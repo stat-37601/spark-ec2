@@ -114,11 +114,14 @@ for module in $MODULES; do
   cd /root/spark-ec2  # guard against setup.sh changing the cwd
 done
 
-mkdir -p /root/notebooks
-pushd /root/notebooks
+popd > /dev/null
 
-cat > ./runner.sh <<EOF
+mkdir -p /root/notebooks
+
+cat > /root/spark-ec2/ipython-runner.sh <<EOF
 #!/bin/bash
+
+cd /root/notebooks
 
 while true; do
   IPYTHON_OPTS="notebook --port=8080 --ip=0.0.0.0" ~/spark/bin/pyspark
@@ -127,9 +130,7 @@ done
 
 EOF
 
-chmod +x ./runner.sh
-nohup ./runner.sh &
-
-popd > /dev/null
-
-popd > /dev/null
+chmod +x /root/spark-ec2/ipython-runner.sh
+nohup /root/spark-ec2/ipython-runner.sh \
+  2>/root/spark-ec2/ipython-runner.log \
+  >/root/spark-ec2/ipython-runner.log &
