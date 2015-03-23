@@ -117,14 +117,18 @@ done
 mkdir -p /root/notebooks
 pushd /root/notebooks
 
-function runner {
-  while true; do
-    IPYTHON_OPTS="notebook --port=8080 --ip=0.0.0.0" ~/spark/bin/pyspark
-    sleep 2
-  done
-}
+cat > ./runner.sh <<EOF
+#!/bin/bash
 
-runner &
+while true; do
+  IPYTHON_OPTS="notebook --port=8080 --ip=0.0.0.0" ~/spark/bin/pyspark
+  sleep 2
+done
+
+EOF
+
+chmod +x ./runner.sh
+nohup ./runner.sh &
 
 popd > /dev/null
 
