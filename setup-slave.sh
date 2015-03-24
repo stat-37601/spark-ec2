@@ -129,18 +129,5 @@ chmod a+x /usr/bin/realpath
 
 popd > /dev/null
 
-echo "Installing special additions..."
-yum install -y python27 python27-pip python27-devel aws-cli \
-  gcc-c++ python27-devel atlas-sse3-devel lapack-devel gcc-gfortran \
-  libpng-devel freetype-devel
-pip-2.7 install -U ipython pyzmq jinja2 tornado backports.ssl_match_hostname \
-  jsonschema terminado numpy scipy pydub matplotlib
-touch /usr/lib/python2.7/site-packages/backports/__init__.py
-
-# Install ffmpeg
-wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz
-tar xf ffmpeg.static.64bit.latest.tar.gz
-cp ffmpeg /usr/local/bin/ffmpeg
-
 echo "Adding a 3 hour time limit..."
-nohup shutdown -P +180 2>/dev/null >/dev/null &
+shutdown -h +180

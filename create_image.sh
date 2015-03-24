@@ -80,3 +80,16 @@ ln -sf /usr/lib64/libsnappy.so.1 /root/hadoop-native/.
 echo '#!/bin/bash' > /usr/bin/realpath
 echo 'readlink -e "$@"' >> /usr/bin/realpath
 chmod a+x /usr/bin/realpath
+
+echo "Installing special additions..."
+yum install -y python27 python27-pip python27-devel aws-cli \
+  gcc-c++ python27-devel atlas-sse3-devel lapack-devel gcc-gfortran \
+  libpng-devel freetype-devel
+pip-2.7 install -U ipython pyzmq jinja2 tornado backports.ssl_match_hostname \
+  jsonschema terminado numpy scipy pydub matplotlib
+touch /usr/lib/python2.7/site-packages/backports/__init__.py
+
+# Install ffmpeg
+wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz
+tar xf ffmpeg.static.64bit.latest.tar.gz
+cp ffmpeg /usr/local/bin/ffmpeg
