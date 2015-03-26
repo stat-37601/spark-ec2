@@ -115,22 +115,3 @@ for module in $MODULES; do
 done
 
 popd > /dev/null
-
-mkdir -p /root/notebooks
-
-cat > /root/spark-ec2/ipython-runner.sh <<EOF
-#!/bin/bash
-
-cd /root/notebooks
-
-while true; do
-  IPYTHON_OPTS="notebook --port=8080 --ip=0.0.0.0" ~/spark/bin/pyspark
-  sleep 2
-done
-
-EOF
-
-chmod +x /root/spark-ec2/ipython-runner.sh
-nohup /root/spark-ec2/ipython-runner.sh \
-  2>/root/spark-ec2/ipython-runner.log \
-  >/root/spark-ec2/ipython-runner.log &

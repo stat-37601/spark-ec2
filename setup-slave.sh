@@ -129,5 +129,4 @@ chmod a+x /usr/bin/realpath
 
 popd > /dev/null
 
-echo "Adding a 3 hour time limit..."
-shutdown -h +180
+((sleep 10800 && shutdown -h now) &) &

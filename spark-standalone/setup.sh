@@ -31,3 +31,25 @@ sleep 20
 
 # Start Workers
 $BIN_FOLDER/start-slaves.sh
+
+# Launch IPython on Spark startup.
+mkdir -p /root/notebooks
+cat > /root/spark-ec2/ipython-runner.sh <<EOF
+#!/bin/bash
+
+mkdir -p ~/notebooks
+cd ~/notebooks
+. ~/spark-ec2/ec2-variables.sh
+
+export PYSPARK_DRIVER_PYTHON="$(which python27)"
+export PYSPARK_DRIVER_PYTHON_OPTS="-m IPython --port=8080 --ip=0.0.0.0"
+
+while true; do
+  ~/spark/bin/pyspark
+  sleep 2
+done
+
+EOF
+
+chmod +x ~/spark-ec2/ipython-runner.sh
+(~/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
