@@ -42,7 +42,7 @@ cd ~/notebooks
 . ~/spark-ec2/ec2-variables.sh
 
 export PYSPARK_DRIVER_PYTHON="$(which python27)"
-export PYSPARK_DRIVER_PYTHON_OPTS="-m IPython --port=8080 --ip=0.0.0.0"
+export PYSPARK_DRIVER_PYTHON_OPTS="-m IPython notebook --port=8080 --ip=0.0.0.0"
 
 while true; do
   ~/spark/bin/pyspark
@@ -53,3 +53,32 @@ EOF
 
 chmod +x ~/spark-ec2/ipython-runner.sh
 (~/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
+
+cat > /root/spark-ec2/ipython-saver.sh <<EOF
+#!/bin/bash
+
+mkdir -p ~/notebooks
+cd ~/notebooks
+. ~/spark-ec2/ec2-variables.sh
+
+export ACCOUNT_ID=$(aws iam get-user | grep Arn | awk 'BEGIN{FS=":"}{print $6}')
+export BUCKET_NAME=stat-37601-$ACCOUNT_ID
+
+aws s3 mb $BUCKET_NAME --region=us-east-1
+
+# Download the latest version of the bucket.
+while true; do
+  aws s3 sync s3://$BUCKET_NAME . && break
+  sleep 2
+done
+
+# Upload all the later versions to the bucket.
+while true; do
+  aws s3 sync . s3://$BUCKET_NAME --acl public-read
+  sleep 10
+done
+
+EOF
+
+chmod +x ~/spark-ec2/ipython-saver.sh
+(~/spark-ec2/ipython-saver.sh &>ipython-saver.log &) &
