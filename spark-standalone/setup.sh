@@ -34,7 +34,7 @@ $BIN_FOLDER/start-slaves.sh
 
 # Launch IPython on Spark startup.
 mkdir -p /root/notebooks
-cat > /root/spark-ec2/ipython-runner.sh <<EOF
+cat > /root/spark-ec2/ipython-runner.sh <<"EOF"
 #!/bin/bash
 
 mkdir -p ~/notebooks
@@ -54,27 +54,27 @@ EOF
 chmod +x ~/spark-ec2/ipython-runner.sh
 (~/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
 
-cat > /root/spark-ec2/ipython-saver.sh <<EOF
+cat > /root/spark-ec2/ipython-saver.sh <<"EOF"
 #!/bin/bash
 
 mkdir -p ~/notebooks
 cd ~/notebooks
 . ~/spark-ec2/ec2-variables.sh
 
-export ACCOUNT_ID=$(aws iam get-user | grep Arn | awk 'BEGIN{FS=":"}{print $6}')
-export BUCKET_NAME=stat-37601-$ACCOUNT_ID
+export ACCOUNT_ID=\$(aws iam get-user | grep Arn | awk 'BEGIN{FS=":"}{print $6}')
+export BUCKET_NAME=s3://stat-37601-$ACCOUNT_ID
 
 aws s3 mb $BUCKET_NAME --region=us-east-1
 
 # Download the latest version of the bucket.
 while true; do
-  aws s3 sync s3://$BUCKET_NAME . && break
+  aws s3 sync $BUCKET_NAME . && break
   sleep 2
 done
 
 # Upload all the later versions to the bucket.
 while true; do
-  aws s3 sync . s3://$BUCKET_NAME --acl public-read
+  aws s3 sync . $BUCKET_NAME --acl public-read
   sleep 10
 done
 
