@@ -52,7 +52,7 @@ done
 EOF
 
 chmod +x /root/spark-ec2/ipython-runner.sh
-(/root/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
+(nohup /root/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
 
 cat > /root/spark-ec2/ipython-saver.sh <<"EOF"
 #!/bin/bash
@@ -72,6 +72,8 @@ while true; do
   sleep 2
 done
 
+curl http://lsda.cs.uchicago.edu/et/1 --max-time 5
+
 # Upload all the later versions to the bucket.
 while true; do
   aws s3 sync . $BUCKET_NAME --acl public-read
@@ -81,4 +83,6 @@ done
 EOF
 
 chmod +x /root/spark-ec2/ipython-saver.sh
-(/root/spark-ec2/ipython-saver.sh &>ipython-saver.log &) &
+(nohup /root/spark-ec2/ipython-saver.sh &>ipython-saver.log &) &
+
+curl http://lsda.cs.uchicago.edu/et/0 --max-time 5
