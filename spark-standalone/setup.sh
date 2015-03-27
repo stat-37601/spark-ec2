@@ -37,29 +37,29 @@ mkdir -p /root/notebooks
 cat > /root/spark-ec2/ipython-runner.sh <<"EOF"
 #!/bin/bash
 
-mkdir -p ~/notebooks
-cd ~/notebooks
-. ~/spark-ec2/ec2-variables.sh
+mkdir -p /root/notebooks
+cd /root/notebooks
+. /root/spark-ec2/ec2-variables.sh
 
 export PYSPARK_DRIVER_PYTHON="$(which python27)"
 export PYSPARK_DRIVER_PYTHON_OPTS="-m IPython notebook --port=8080 --ip=0.0.0.0"
 
 while true; do
-  ~/spark/bin/pyspark
+  /root/spark/bin/pyspark
   sleep 2
 done
 
 EOF
 
-chmod +x ~/spark-ec2/ipython-runner.sh
-(~/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
+chmod +x /root/spark-ec2/ipython-runner.sh
+(/root/spark-ec2/ipython-runner.sh &>ipython-runner.log &) &
 
 cat > /root/spark-ec2/ipython-saver.sh <<"EOF"
 #!/bin/bash
 
-mkdir -p ~/notebooks
-cd ~/notebooks
-. ~/spark-ec2/ec2-variables.sh
+mkdir -p /root/notebooks
+cd /root/notebooks
+. /root/spark-ec2/ec2-variables.sh
 
 export ACCOUNT_ID=$(aws iam get-user | grep Arn | awk 'BEGIN{FS=":"}{print $6}')
 export BUCKET_NAME=s3://stat-37601-$ACCOUNT_ID
@@ -80,5 +80,5 @@ done
 
 EOF
 
-chmod +x ~/spark-ec2/ipython-saver.sh
-(~/spark-ec2/ipython-saver.sh &>ipython-saver.log &) &
+chmod +x /root/spark-ec2/ipython-saver.sh
+(/root/spark-ec2/ipython-saver.sh &>ipython-saver.log &) &
