@@ -61,7 +61,7 @@ mkdir -p ~/notebooks
 cd ~/notebooks
 . ~/spark-ec2/ec2-variables.sh
 
-export ACCOUNT_ID=\$(aws iam get-user | grep Arn | awk 'BEGIN{FS=":"}{print $6}')
+export ACCOUNT_ID=$(aws iam get-user | grep Arn | awk 'BEGIN{FS=":"}{print $6}')
 export BUCKET_NAME=s3://stat-37601-$ACCOUNT_ID
 
 aws s3 mb $BUCKET_NAME --region=us-east-1
