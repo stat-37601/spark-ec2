@@ -129,4 +129,4 @@ chmod a+x /usr/bin/realpath
 
 popd > /dev/null
 
-((sleep 10800 && shutdown -h now) &) &
+((nohup sleep 10800 && shutdown -h now) &) &
