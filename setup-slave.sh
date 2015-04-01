@@ -130,7 +130,6 @@ chmod a+x /usr/bin/realpath
 popd > /dev/null
 
 # Ensure that numpy is installed properly on every machine.
-# pip-2.7 install -U --force-reinstall numpy
-# Disabled by Jeremy Archer on 31 Mar 2015.
+pip-2.7 install -U --force-reinstall numpy
 
 ((nohup sleep 10800 && shutdown -h now) &) &
