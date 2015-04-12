@@ -132,4 +132,4 @@ popd > /dev/null
 # Ensure that numpy is installed properly on every machine.
 pip-2.7 install -U --force-reinstall numpy
 
-at now + 5 hours shutdown -h now
+echo "shutdown -h now" | at now + 5 hours
