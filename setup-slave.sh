@@ -132,4 +132,4 @@ popd > /dev/null
 # Ensure that numpy is installed properly on every machine.
 pip-2.7 install -U --force-reinstall numpy requests BeautifulSoup4
 
-echo "shutdown -h now" | at now + 5 hours
+echo "shutdown -h now" | at now + 8 hours
